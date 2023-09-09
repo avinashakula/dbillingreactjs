@@ -7,6 +7,7 @@ const customersSlice = createSlice({
   reducers: {
     add(state: any, action) {
       //   state.customers = action.payload
+      console.log("action.payload", action.payload);
       state.push(action.payload);
     },
     remove(state: any, action) {

@@ -5,15 +5,14 @@ import { add } from "@store/customersSlice";
 import TextInput from "@utilities/components/textInput";
 import TextareaInput from "@utilities/components/textareaInput";
 import { addCustomers } from "@utilities/constants/customers";
-import SelectInput from "@utilities/components/selectInput";
 import { typeOfPersonList } from "@utilities/mock/customers";
 import Button from "@utilities/components/button";
+import DropDown from "@utilities/components/dropDown";
 
 function AddCustomers() {
   const dispatch = useDispatch();
-  const customresList = useSelector((state: any) => state);
-  const [customerData, setCustomerData] = useState({});
-
+  const existedCustomersList = useSelector((state: any) => state);
+  const [customerData, setCustomerData] = useState();
   const onSubmit = () => {
     // dispatch add action
     dispatch(add(customerData));
@@ -25,9 +24,16 @@ function AddCustomers() {
     setCustomerData({ ...customerData, [name]: value });
   };
 
+  const onSelectChange = (input: any) => {
+    let name = input?.target?.attributes?.name?.value;
+    let value = input?.target?.attributes?.dataValue?.value;
+    let label = input?.target?.attributes?.label?.value;   
+    setCustomerData({ ...customerData, [name]: {"value":value, "name":name, "label":label} });
+  };
+
   useEffect(() => {
-    console.log("customresList", customresList);
-  }, [customresList]);
+    console.log("customerData", customerData);
+  }, [customerData]);
 
   return (
     <div className="container">
@@ -36,11 +42,11 @@ function AddCustomers() {
         <div className="col-md-6 offset-md-3 bg-white p-3 rounded-4 shadow-sm">
           {/* <form> */}
           <div className="mb-3">
-            <SelectInput
-              label={addCustomers.TYPEOFPERSON}
+            <DropDown
               name={addCustomers.typeOfPerson}
-              onInputChange={onInputChange}
+              onInputChange={onSelectChange}
               list={typeOfPersonList}
+              value={customerData?.[addCustomers.typeOfPerson]}
             />
           </div>
           <div className="mb-3">
