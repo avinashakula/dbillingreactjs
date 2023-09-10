@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, useEffect } from "react";
 import PageHeader from "@utilities/components/pageHeader";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +9,7 @@ import { addCustomers } from "@utilities/constants/customers";
 import { typeOfPersonList } from "@utilities/mock/customers";
 import Button from "@utilities/components/button";
 import DropDown from "@utilities/components/dropDown";
+// import { Button } from '@mui/material';
 
 function AddCustomers() {
   const dispatch = useDispatch();
@@ -32,12 +34,13 @@ function AddCustomers() {
   };
 
   useEffect(() => {
-    console.log("customerData", customerData);
-  }, [customerData]);
+    console.log("existedCustomersList", existedCustomersList);
+  }, [existedCustomersList]);
 
   return (
     <div className="container">
       <PageHeader title={addCustomers.ADDCUSTOMER} />
+      {/* <Button variant="contained">Hello world</Button> */}
       <div className="container-fluid">
         <div className="col-md-6 offset-md-3 bg-white p-3 rounded-4 shadow-sm">
           {/* <form> */}
