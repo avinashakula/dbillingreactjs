@@ -1,6 +1,5 @@
 import { Dispatch } from "redux";
 import { setCustomers } from "../store/customersSlice";
-
 interface customerProp {
   id: number;
   mobile: string;
@@ -15,18 +14,18 @@ interface customerProp {
 const fetchCustomersListFromApi = async (): Promise<any[]> => {
   try {
     const response = await fetch(
-      "http://desireitservices.in/dbilling/api/customers.php"
+      "http://desireitservices.in/old/dbilling/api/customers.php"
     );
     const data = await response.json();
-    return data;
+    return data?.data;
   } catch (error) {
-    console.error('Error fetching user list:', error);
+    console.error("Error fetching user list:", error);
     throw error;
   }
 };
 
-export const fetchCustomersList = () => {
-  return async (dispatch: any) => {
+export const initialCustomersList = () => {
+  return async (dispatch: any[]) => {
     try {
       const customersList = await fetchCustomersListFromApi();
       dispatch(setCustomers(customersList));

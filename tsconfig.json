@@ -25,7 +25,8 @@
       "@utilities/*":["src/utilities/*"],
       "@store/*":["src/store/*"],
       "@components/*":["src/components/*"],
-      "@navbar/*":["src/navbar/*"]
+      "@navbar/*":["src/navbar/*"],
+      "@actions/*":["src/actions/*"]
     }
   },
   "include": ["src"],

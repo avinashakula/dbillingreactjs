@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import { useState, useEffect } from "react";
 import PageHeader from "@utilities/components/pageHeader";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,8 +29,11 @@ function AddCustomers() {
   const onSelectChange = (input: any) => {
     let name = input?.target?.attributes?.name?.value;
     let value = input?.target?.attributes?.dataValue?.value;
-    let label = input?.target?.attributes?.label?.value;   
-    setCustomerData({ ...customerData, [name]: {"value":value, "name":name, "label":label} });
+    let label = input?.target?.attributes?.label?.value;
+    setCustomerData({
+      ...customerData,
+      [name]: { value: value, name: name, label: label },
+    });
   };
 
   useEffect(() => {
