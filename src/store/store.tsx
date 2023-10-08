@@ -1,6 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import customersSlice, { setCustomers, fetchCustomersPending, fetchCustomersFailed } from './customersSlice'
-import { CUSTOMERS, fetchData } from '../api';
+import { CUSTOMERS, REMOVECUSTOMER } from '../api';
+let ENV = import.meta.env;
 
 const store = configureStore({
     reducer: {
@@ -8,8 +9,26 @@ const store = configureStore({
     }
 })
 
+const getQueryString = (query: string) => {
+    if (query == CUSTOMERS) {
+      return "customers.php";
+    }else if (query == REMOVECUSTOMER) {
+      return "removeCustomer.php";
+    }
+  };
+  export const fetchData = async (apiString: string, type:string='POST', data:any={}) => {
+    store.dispatch(fetchCustomersPending(""))   
+    let queryString = getQueryString(apiString);
+    const response = await fetch(ENV?.VITE_REACT_APP_ROOT_API + queryString, {
+      method: 'POST',
+      // headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    return response;
+  };
+
 const initialCustomersList = async (): Promise<any[]> => {
-    store.dispatch(fetchCustomersPending())
+    store.dispatch(fetchCustomersPending(""))
     try {
         const response = await fetchData(CUSTOMERS);
         if( !response.ok ){
@@ -31,5 +50,8 @@ initialCustomersList()
         store.dispatch(fetchCustomersFailed())
         console.error('Error fetching default user data', error)
     })
+
+
+
 
 export default store;

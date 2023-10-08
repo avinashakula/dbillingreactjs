@@ -111,7 +111,7 @@ function AddCustomers() {
             />
           </div>
 
-          <Button label="Submit" bg="btn-primary" onSubmit={onSubmit} />
+          <Button label="Submit" bg="btn-primary" onClick={onSubmit} />
           {/* </form> */}
         </div>
       </div>

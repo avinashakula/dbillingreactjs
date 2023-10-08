@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { REMOVECUSTOMER, fetchData } from "../api";
 interface customersProps {
   customers: any[];
   loading: boolean;
@@ -19,8 +19,9 @@ const customersSlice = createSlice({
       state.push(action.payload);
     },
     removeCustomer(state: any, action) {
+      fetchData(REMOVECUSTOMER, "POST", { id: action.payload?.id });
       state.customers = state.customers.filter(
-        (item: any, index: any) => index !== action.payload
+        (item: any, index: any) => index !== action.payload?.item
       );
     },
     setCustomers(state: any, action) {
@@ -28,8 +29,12 @@ const customersSlice = createSlice({
       state.error = null;
       state.customers = action.payload;
     },
-    fetchCustomersPending(state: any) {
+    fetchCustomersPending(state: any, action) {
       state.loading = true;
+      state.error = action.payload;
+    },
+    fetchCustomersCompleted(state: any) {
+      state.loading = false;
       state.error = null;
     },
     fetchCustomersFailed(state: any) {
@@ -44,6 +49,7 @@ export const {
   removeCustomer,
   setCustomers,
   fetchCustomersPending,
+  fetchCustomersCompleted,
   fetchCustomersFailed,
 } = customersSlice.actions;
 export default customersSlice.reducer;

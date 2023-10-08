@@ -1,13 +1,13 @@
 interface Props {
   label: string;
   bg: string;
-  onSubmit: () => void;
+  onClick: () => void;
 }
 export default function Button(props: Props) {
-  const { label, bg, onSubmit } = props;
+  const { label, bg, onClick } = props;
   return (
     <>
-      <button type="submit" className={`btn ${bg}`} onClick={onSubmit}>
+      <button type="submit" className={`btn ${bg}`} onClick={onClick}>
         {label}
       </button>
     </>
