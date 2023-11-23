@@ -29,6 +29,6 @@
       "@actions/*":["src/actions/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/utilities/components/index.tsx", "index.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

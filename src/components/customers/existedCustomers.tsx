@@ -9,7 +9,7 @@ import { Button, PageHeader } from "@utilities/components";
 
 function ExistedCustomers() {
   const dispatch = useDispatch();
-  const existedCustomersList = useSelector((state: any) => state);
+  const { customers, error, loading } = useSelector((state: any) => state);
 
   const deleteCustomer = (item: any, id: any) => {
     dispatch(fetchCustomersPending("Removing User..."));
@@ -22,13 +22,10 @@ function ExistedCustomers() {
   return (
     <div className="container">
       <div className="row">
-        <PageHeader
-          title={"Existed Customers"}
-          loading={existedCustomersList}
-        />
+        <PageHeader title={"Existed Customers"} loading={loading} />
         <div className="container-fluid">
-          {existedCustomersList?.customers?.customers.map(
-            (customer: any, index: any) => {
+          {customers?.customers &&
+            customers?.customers.map((customer: any, index: any) => {
               return (
                 <div key={index}>
                   <h2>{customer.name}</h2>
@@ -39,8 +36,7 @@ function ExistedCustomers() {
                   />
                 </div>
               );
-            }
-          )}
+            })}
         </div>
       </div>
     </div>

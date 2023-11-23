@@ -28,6 +28,7 @@ const getQueryString = (query: string) => {
   };
 
 const initialCustomersList = async (): Promise<any[]> => {
+  console.log(11111111111111111);
     store.dispatch(fetchCustomersPending(""))
     try {
         const response = await fetchData(CUSTOMERS);

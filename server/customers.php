@@ -19,7 +19,7 @@
                 $query = "AND type='$type'";
             }
            
-            $query = mysqli_query($conn, "SELECT * FROM `customers` WHERE status='1' $query") or die(mysqli_error($conn));			
+            $query = mysqli_query($conn, "SELECT * FROM `customers` WHERE status IN('0','1') $query") or die(mysqli_error($conn));			
             if( mysqli_num_rows($query) > 0 ){       
                 header("Content-Type: JSON");
                 $responseList = array("data"=>[]);
@@ -33,7 +33,7 @@
                     $response["state"] = $res['state'];
                     $response["pincode"] = $res['pincode'];
                     $response["city"] = $res['city'];
-                    $response["type"] = $res['type'];
+                    $response["type"] = json_decode($res['type']);
                     array_push($responseList["data"],$response);
                 }
                 result("Success", $responseList, true);   

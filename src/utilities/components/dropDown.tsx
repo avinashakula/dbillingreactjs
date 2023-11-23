@@ -5,7 +5,8 @@ interface Props {
   value: any;
 }
 const DropDown = (props: Props) => {
-  const { name, onInputChange, list, value } = props;
+  const { name, onInputChange, list, value, label } = props;
+  console.log("value", value);
   return (
     <div className="dropdown">
       <button
@@ -14,19 +15,21 @@ const DropDown = (props: Props) => {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        {value?.label ? value?.label : 'Select'}
+        {value?.label ? value?.label : "Select"}
       </button>
       <ul className="dropdown-menu">
-        {list.map((item: any) => {
+        {list.map((item: any, index) => {
+          console.log("item", item);
           return (
-            <li>
+            <li key={index}>
               <a
                 className="dropdown-item"
                 href="#"
                 name={name}
                 label={item.name}
-                dataValue={item.value}
+                dataValue={name}
                 onClick={onInputChange}
+                item={item}
               >
                 {item.name}
               </a>
@@ -34,7 +37,7 @@ const DropDown = (props: Props) => {
           );
         })}
       </ul>
-    </div>   
+    </div>
   );
 };
 

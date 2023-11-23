@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import PageHeader from "@utilities/components/pageHeader";
 import { useDispatch, useSelector } from "react-redux";
-import { add } from "@store/customersSlice";
+import { add, addNewCustomerAsync } from "@store/customersSlice";
 import TextInput from "@utilities/components/textInput";
 import TextareaInput from "@utilities/components/textareaInput";
 import { addCustomers } from "@utilities/constants/customers";
@@ -10,35 +10,40 @@ import { typeOfPersonList } from "@utilities/mock/customers";
 import Button from "@utilities/components/button";
 import DropDown from "@utilities/components/dropDown";
 // import { Button } from '@mui/material';
+import { CustomerDataState, TypeOfPerson } from "src/types";
 
 function AddCustomers() {
   const dispatch = useDispatch();
-  const existedCustomersList = useSelector((state: any) => state);
-  const [customerData, setCustomerData] = useState();
+  const existedCustomersList = useSelector((state: any) => state.customers);
+  const [customerData, setCustomerData] = useState<
+    CustomerDataState | undefined
+  >(undefined);
+
   const onSubmit = () => {
     // dispatch add action
-    dispatch(add(customerData));
+    console.log("customerData", customerData);
+    dispatch(addNewCustomerAsync(customerData));
+    // dispatch(add(customerData));
   };
 
-  const onInputChange = (input: any) => {
-    let name = input?.target?.name;
-    let value = input?.target?.value;
-    setCustomerData({ ...customerData, [name]: value });
+  const onInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = target;
+    setCustomerData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const onSelectChange = (input: any) => {
-    let name = input?.target?.attributes?.name?.value;
-    let value = input?.target?.attributes?.dataValue?.value;
-    let label = input?.target?.attributes?.label?.value;
-    setCustomerData({
-      ...customerData,
-      [name]: { value: value, name: name, label: label },
-    });
+  const onSelectChange = ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("varlue....", target?.name);
+    const name = target?.name;
+    const value = target.innerText;
+    const label = target?.selectedOptions[0]?.label;
+    setCustomerData((prevData) => ({
+      ...prevData,
+      [name]: { value, name, label },
+    }));
   };
-
-  useEffect(() => {
-    console.log("existedCustomersList", existedCustomersList);
-  }, [existedCustomersList]);
 
   return (
     <div className="container">
@@ -49,10 +54,11 @@ function AddCustomers() {
           {/* <form> */}
           <div className="mb-3">
             <DropDown
+              label={"abc"}
               name={addCustomers.typeOfPerson}
               onInputChange={onSelectChange}
               list={typeOfPersonList}
-              value={customerData?.[addCustomers.typeOfPerson]}
+              value={customerData?.[addCustomers.typeOfPerson] || ""}
             />
           </div>
           <div className="mb-3">
@@ -111,7 +117,7 @@ function AddCustomers() {
             />
           </div>
 
-          <Button label="Submit" bg="btn-primary" onClick={onSubmit} />
+          <Button label="Submit" bg="btn-primary" onClick={onSubmit} disabled={existedCustomersList.loading} />
           {/* </form> */}
         </div>
       </div>
